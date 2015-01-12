@@ -14,10 +14,10 @@
 3. Używanie
 
 	W konsoli są dostępne dwa polecenia:
-		
-		run - inicjalizuje połączenie z drugą stroną, po drugiej stronie w katalogu results zapisywane są wyniki.
-		
-		exit - zamyka.
+	
+	run - inicjalizuje połączenie z drugą stroną, po drugiej stronie w katalogu results zapisywane są wyniki.
+	
+	exit - zamyka.
 
 
 Format plików to u-law, 8000Hz, mono.
