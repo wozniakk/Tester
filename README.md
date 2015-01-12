@@ -15,6 +15,7 @@
 
 	W konsoli są dostępne dwa polecenia:
 		run - inicjalizuje połączenie z drugą stroną, po drugiej stronie w katalogu results zapisywane są wyniki.
+		
 		exit - zamyka.
 
 
