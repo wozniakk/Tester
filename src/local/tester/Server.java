@@ -15,6 +15,59 @@ public class Server implements Runnable {
 		this.tcpPortNumber = tcpPortNumber;
 	}
 	
+	private void waitForHangup() {
+		
+		synchronized (Tester.testerUA) {
+			try {
+				Tester.testerUA.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+//	private void sendRecordedFileBack(String filePath, DataOutputStream outputStream) {
+//		
+//		try ( FileInputStream recordedFile = new FileInputStream(filePath);
+//				BufferedInputStream bufferedInputStream = new BufferedInputStream(recordedFile); ) {
+//			outputStream.writeBytes(String.valueOf(bufferedInputStream.available()) + '\n');
+//			System.out.println(String.valueOf(bufferedInputStream.available()));
+//			
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+////		try ( FileInputStream recordedFile = new FileInputStream(filePath);
+////				BufferedInputStream bufferedInputStream = new BufferedInputStream( recordedFile ); ) {
+////			long fileSize = recordedFile.available();
+////			final int BUFFER_SIZE = 1024;
+////			byte[] fileBytes = new byte[BUFFER_SIZE];
+////			outputStream.writeBytes(String.valueOf(fileSize) + '\n');
+////			long bytesReaded = 0;
+////			long restBytes;
+////			while (bytesReaded < fileSize) {
+////				if (BUFFER_SIZE <= fileSize - bytesReaded) {
+////					bytesReaded += bufferedInputStream.read(fileBytes, 0, fileBytes.length);
+////					outputStream.write(fileBytes, 0, fileBytes.length);
+////				} else {
+////					bytesReaded += restBytes = bufferedInputStream.read(fileBytes, 0, (int)(fileSize - bytesReaded));
+////					outputStream.write(fileBytes, 0, (int)restBytes);
+////				}
+////			}
+////			System.out.println("Done " + filePath + " size " + fileSize + "B");
+//////			outputStream.writeBytes("\n");
+//////			outputStream.flush();
+////		} catch (FileNotFoundException e) {
+////			e.printStackTrace();
+////		} catch (IOException e) {
+////			e.printStackTrace();
+////		}
+//		
+//	}
+	
 	@Override
 	public void run() {
 		
@@ -26,7 +79,6 @@ public class Server implements Runnable {
 				BufferedReader inputData = new BufferedReader( new InputStreamReader(connectionSocket.getInputStream()) );
 				DataOutputStream outputData = new DataOutputStream(connectionSocket.getOutputStream()); ) {
 				String input = inputData.readLine();
-				System.out.println(input);
 				if (input.equals(HELLO)) {
 					if (Tester.isProgramBusy()) {
 						outputData.writeBytes(BUSY + '\n');
@@ -39,28 +91,23 @@ public class Server implements Runnable {
 						if (callsNumber == callsLength.length) {
 							Tester.setProgramBusy();
 							outputData.writeBytes(START + '\n');
-							//
-							outputData.writeBytes(Tester.testerUA.userName + '\n');
+							outputData.writeBytes(Tester.testerUA.getUserName() + '\n');
 							Tester.testerUA.setRemoteUser( inputData.readLine() );
-							System.out.println(Tester.testerUA.getRemoteUser());
 							for (int i = 0; i<callsNumber; ++i) {
 								Tester.testerUA.setCalee(callsLength[i],
 										"results/" + Tester.testerUA.getRemoteUser() + "_" + i + ".wav");
-								synchronized (Tester.testerUA) {
-									try {
-										Tester.testerUA.wait();
-									} catch (InterruptedException e) {
-										e.printStackTrace();
-									}
-								}
+								waitForHangup();
+								System.out.println("Received: " + Tester.testerUA.getRemoteUser() + "_" + i + ".wav");
 							}
-							Tester.testerUA.setIdle();
+							// sending files back
+//							System.out.println("Sending recorded files back.");
+//							for (int i = 0; i<callsNumber; ++i)
+//								sendRecordedFileBack("results/" + Tester.testerUA.getRemoteUser() + "_" + i + ".wav", outputData);
 							//
+							Tester.testerUA.setIdle();
 							Tester.setProgramAvailable();
 							System.out.println("DONE");
-						} else {
-							outputData.writeBytes(ERROR + '\n');
-						}
+						} else outputData.writeBytes(ERROR + '\n');
 					}
 				}
 			} catch (IOException e) {

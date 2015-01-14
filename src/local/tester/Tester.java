@@ -13,16 +13,16 @@ public class Tester {
 	
 	private static ProgramState testerState = ProgramState.AVAILABLE;
 	
-	public static synchronized boolean isProgramBusy() {
+	protected static synchronized boolean isProgramBusy() {
 		if (testerState == ProgramState.BUSY) return true;
 		return false;
 	}
 	
-	public static synchronized void setProgramAvailable() {
+	protected static synchronized void setProgramAvailable() {
 		testerState = ProgramState.AVAILABLE;
 	}
 	
-	public static synchronized void setProgramBusy() {
+	protected static synchronized void setProgramBusy() {
 		testerState = ProgramState.BUSY;
 	}
 

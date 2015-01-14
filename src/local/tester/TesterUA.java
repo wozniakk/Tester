@@ -4,7 +4,6 @@ import java.util.UUID;
 import java.util.Vector;
 
 import org.zoolu.sip.address.NameAddress;
-import org.zoolu.tools.ExceptionPrinter;
 import org.zoolu.tools.Log;
 import org.zoolu.tools.ScheduledWork;
 
@@ -16,11 +15,11 @@ public class TesterUA implements UserAgentListener {
 
 	private String remoteUser;
 	
-	public void setRemoteUser(String remoteUser) {
+	protected void setRemoteUser(String remoteUser) {
 		this.remoteUser = remoteUser;
 	}
 	
-	public String getRemoteUser() {
+	protected String getRemoteUser() {
 		return remoteUser;
 	}
 	
@@ -54,13 +53,17 @@ public class TesterUA implements UserAgentListener {
 		return call_state; 
 	}
 	
-	public String userName;
+	private String userName;
+	
+	protected String getUserName() {
+		return userName;
+	}
 	
 	public TesterUA(String[] args) {
 		
-		UA.init("", args);
+		UA.init("Tester", args);
 		userName = UUID.randomUUID().toString();
-		System.out.println(userName);
+		System.out.println("This: " + userName);
 		UA.ua_profile.user = userName; 
 		UA.ua_profile.auth_user = userName;
 		ua = new UserAgent(UA.sip_provider, UA.ua_profile, this);
@@ -93,12 +96,14 @@ public class TesterUA implements UserAgentListener {
 				changeStatus(UA_ONCALL);
 			}
 		}
-		else new ScheduledWork(delay_time*1000) {  public void doWork() {
-			if (statusIs(UA_INCOMING_CALL)) {
-				ua.accept();
-				changeStatus(UA_ONCALL);
+		else new ScheduledWork(delay_time*1000) {
+			public void doWork() {
+				if (statusIs(UA_INCOMING_CALL)) {
+					ua.accept();
+					changeStatus(UA_ONCALL);
+				}
 			}
-		}  };
+		};
 	}
 	
 	/** Schedules an automatic hangup after <i>delay_time</i> secs. */
@@ -110,12 +115,14 @@ public class TesterUA implements UserAgentListener {
 				changeStatus(UA_IDLE);      
 			}
 		}
-		else new ScheduledWork(delay_time*1000) {  public void doWork() {
-			if (!statusIs(UA_IDLE)) {
-				ua.hangup();
-				changeStatus(UA_IDLE);      
+		else new ScheduledWork(delay_time*1000) {
+			public void doWork() {
+				if (!statusIs(UA_IDLE)) {
+					ua.hangup();
+					changeStatus(UA_IDLE);      
+				}
 			}
-		}  };
+		};
 	}
 	
 	void run() {
@@ -144,15 +151,6 @@ public class TesterUA implements UserAgentListener {
 			ua.printLog("REGISTRATION");
 			ua.loopRegister(UA.ua_profile.expires, UA.ua_profile.expires/2, UA.ua_profile.keepalive_time);
 		}
-		// ########## make a call with the remote URL
-//		if (UA.ua_profile.call_to!=null) {
-//			ua.printLog("UAC: CALLING " + UA.ua_profile.call_to);
-//			jComboBox1.setSelectedItem(null);
-//			comboBoxEditor1.setItem(ua_profile.call_to.toString());
-//			display.setText("CALLING "+ua_profile.call_to);
-//			ua.call(UA.ua_profile.call_to);
-//			changeStatus(UA_OUTGOING_CALL);       
-//		}
 		  
 		if (!UA.ua_profile.audio && !UA.ua_profile.video) ua.printLog("ONLY SIGNALING, NO MEDIA");
 		
@@ -203,10 +201,10 @@ public class TesterUA implements UserAgentListener {
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	@Override
 	public void onUaIncomingCall(UserAgent ua, NameAddress callee,
-			NameAddress caller, Vector media_descs) {
+			NameAddress caller, @SuppressWarnings("rawtypes") Vector media_descs) {
 		
 		changeStatus(UA_INCOMING_CALL);
 		if (testerFunction.equals(TesterFunction.IDLE) || testerFunction.equals(TesterFunction.CALLER)) {
@@ -217,6 +215,9 @@ public class TesterUA implements UserAgentListener {
 			if (caller.getAddress().getUserName().equals(getRemoteUser())) {
 		         automaticAccept(UA.ua_profile.accept_time);
 		         automaticHangup(UA.ua_profile.hangup_time);
+			} else {
+				ua.hangup();
+				changeStatus(UA_IDLE);
 			}
 		}
 			
@@ -293,8 +294,8 @@ public class TesterUA implements UserAgentListener {
 	}
 	
 	/** Adds the Exception message to the default Log */
-	private void printException(Exception e,int level) {
-		printLog("Exception: " + ExceptionPrinter.getStackTraceOf(e), level);
-	}
+//	private void printException(Exception e,int level) {
+//		printLog("Exception: " + ExceptionPrinter.getStackTraceOf(e), level);
+//	}
 	
 }
