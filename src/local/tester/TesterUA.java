@@ -156,7 +156,7 @@ public class TesterUA implements UserAgentListener {
 		
 	}
 	
-	private TesterFunction testerFunction = TesterFunction.IDLE;
+	private TesterFunction testerFunction;
 	
 	public void setCaller(String sendFile) {
 		
@@ -183,9 +183,22 @@ public class TesterUA implements UserAgentListener {
 	
 	public void setIdle() {
 		
+		changeStatus(UA_IDLE);
 		testerFunction = TesterFunction.IDLE; 
-		UA.ua_profile.hangup_time = 0;//auto hang up
+		UA.ua_profile.hangup_time = 0;//manual hang up
 		UA.ua_profile.accept_time = -1;//manual accept
+		
+	}
+	
+	protected void waitForHangup() {
+		
+		synchronized (this) {
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		
 	}
 	

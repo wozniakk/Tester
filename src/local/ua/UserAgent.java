@@ -193,7 +193,8 @@ public class UserAgent extends CallListenerAdapter implements CallWatcherListene
       // load sounds
       // ################# patch to make rat working.. #################
       // in case of rat, do not load and play audio clips
-      if (!ua_profile.use_rat)
+      boolean ENABLE_SOUNDS = false;
+      if (ENABLE_SOUNDS)//(!ua_profile.use_rat)
       {  try
          {  String jar_file=ua_profile.ua_jar;
             if (jar_file!=null)

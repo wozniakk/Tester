@@ -28,18 +28,6 @@ public class Client implements Runnable {
 		this.testFilesPaths = testFilesPaths;
 	}
 	
-	private void waitForHangup() {
-		
-		synchronized (Tester.testerUA) {
-			try {
-				Tester.testerUA.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
-	}
-	
 	private String durationsToString(int[] durations) {
 		
 		StringBuilder durationsString = new StringBuilder(Integer.valueOf(durations.length).toString());
@@ -57,9 +45,12 @@ public class Client implements Runnable {
 			AudioFileFormat format = AudioSystem.getAudioFileFormat( fromFile );
 			headerLength = format.getByteLength() - format.getFrameLength();
 			byte[] headerBuffer = new byte[headerLength];
+			byte[] fileBuffer = new byte[(int) toFile.length()];
 			fromInputStream.read(headerBuffer);
+			toFile.read(fileBuffer);
 			toFile.seek(0);
 			toFile.write(headerBuffer);
+			toFile.write(fileBuffer);
 		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -70,21 +61,6 @@ public class Client implements Runnable {
 	
 //	private void getRecordedFile(String fileName, Socket clientSocket) {
 //		
-//		char[] fileBytes = new char[1];
-//		long fileSize;
-//	    try ( BufferedReader inputStream = new BufferedReader( new InputStreamReader(clientSocket.getInputStream()) );
-//	    		BufferedOutputStream fileOutputStream = new BufferedOutputStream( new FileOutputStream("received/" + fileName) ); ) {
-//	    	fileSize = Long.valueOf(inputStream.readLine());
-//	    	int bytesReaded = 0;
-//	    	while (bytesReaded++ < fileSize) {
-//	    		inputStream.read(fileBytes);
-//	    		fileOutputStream.write(new String(fileBytes).getBytes(), 0, 1);
-//	    		inputStream.reset();
-//	    	}
-//	    } catch (Exception e) {
-//	    	e.printStackTrace();
-//	    }
-//	    
 //	}
 	
 	@Override
@@ -96,45 +72,45 @@ public class Client implements Runnable {
 		try ( Socket clientSocket = new Socket(tcpRemoteAddress, tcpPortNumber);
 			DataOutputStream clientOutputStream = new DataOutputStream(clientSocket.getOutputStream());
 			BufferedReader clientInputStream = new BufferedReader( new InputStreamReader(clientSocket.getInputStream()) ); ) {
-			while (true) {
-				clientOutputStream.writeBytes(HELLO + '\n');
-				String input = clientInputStream.readLine();
-				if (input.equals(BUSY)) {
-					System.out.println(BUSY);
-					break;
-				}
-				if (input.equals(HI)) {
-					clientOutputStream.writeBytes(durationsToString(durations) + '\n');
-					input = clientInputStream.readLine();
-					if (input.equals(START)) {
-						Tester.testerUA.setRemoteUser( clientInputStream.readLine() );
-						clientOutputStream.writeBytes(Tester.testerUA.getUserName() + '\n');
-						for (int i = 0; i<durations.length; ++i) {
-							System.out.println("Sending: " + testFilesPaths[i]);
-							Tester.testerUA.setCaller(testFilesPaths[i]);
-							Tester.testerUA.ua.call("sip:" + Tester.testerUA.getRemoteUser() + '@' + tcpRemoteAddress + ":5070");
-							waitForHangup();
+				while (true) {
+					clientOutputStream.writeBytes(HELLO + '\n');
+					String input = clientInputStream.readLine();
+					if (input.equals(BUSY)) {
+						System.out.println(BUSY);
+						break;
+					}
+					if (input.equals(HI)) {
+						clientOutputStream.writeBytes(durationsToString(durations) + '\n');
+						input = clientInputStream.readLine();
+						if (input.equals(START)) {
+							Tester.testerUA.setRemoteUser( clientInputStream.readLine() );
+							clientOutputStream.writeBytes(Tester.testerUA.getUserName() + '\n');
+							for (int i = 0; i<durations.length; ++i) {
+								System.out.println("Sending: " + testFilesPaths[i]);
+								Tester.testerUA.setCaller(testFilesPaths[i]);
+								Tester.testerUA.ua.call("sip:" + Tester.testerUA.getRemoteUser() + '@' + tcpRemoteAddress + ":5070");
+								Tester.testerUA.waitForHangup();
+							}
+//							waiting for recorded files
+							for (int i = 0; i<durations.length; ++i) {
+//								getRecordedFile("received/" + Tester.testerUA.getRemoteUser() + "_" + i + ".wav", clientSocket);
+								copyHeader(testFilesPaths[i], "results/" + Tester.testerUA.getUserName() + "_" + i + ".wav");
+							}
+							Tester.testerUA.setIdle();
+							System.out.println("DONE");
+						} else {
+							System.out.println(ERROR);
 						}
-						// waiting for recorded files
-						for (int i = 0; i<durations.length; ++i) {
-							copyHeader(testFilesPaths[i], "results/" + Tester.testerUA.getUserName() + "_" + i + ".wav");
-						}
-//							getRecordedFile(Tester.testerUA.getRemoteUser() + "_" + i + ".wav", clientSocket);
-						//
-						Tester.testerUA.setIdle();
-						System.out.println("DONE");
-					} else {
-						System.out.println(ERROR);
 					}
 					break;
 				}
-			}
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			Tester.setProgramAvailable();
 		}
-		Tester.setProgramAvailable();
 		
 	}
 	
