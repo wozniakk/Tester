@@ -8,36 +8,35 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Tester {
 	
-	private static ProgramState testerState = ProgramState.AVAILABLE;
+	private static ProgramState programState = ProgramState.AVAILABLE;
 	
 	protected static synchronized boolean isProgramBusy() {
-		if (testerState == ProgramState.BUSY) return true;
-		return false;
+		return programState == ProgramState.BUSY;
 	}
 	
 	protected static synchronized void setProgramAvailable() {
-		testerState = ProgramState.AVAILABLE;
+		programState = ProgramState.AVAILABLE;
 	}
 	
 	protected static synchronized void setProgramBusy() {
-		testerState = ProgramState.BUSY;
+		programState = ProgramState.BUSY;
 	}
 
 	private static void serverInit(int tcpServerPort) {
 		
-		Server tcpServer = new Server(tcpServerPort);
-		Thread tcpServerThread = new Thread(tcpServer);
+		Thread tcpServerThread = new Thread( new Server(tcpServerPort) );
 		tcpServerThread.start();
 		
 	}
 	
 	private static void runOnRemote(String tcpRemoteAddress, int tcpRemotePort, int[] durations, String[] testFilesPaths) {
 		
-		Client tcpClient = new Client(tcpRemoteAddress, tcpRemotePort, durations, testFilesPaths);
-		Thread tcpClientThread = new Thread(tcpClient);
+		Thread tcpClientThread = new Thread(
+				new Client(tcpRemoteAddress, tcpRemotePort, durations, testFilesPaths) );
 		tcpClientThread.start();
 		
 	}
@@ -54,15 +53,16 @@ public class Tester {
 	private static void readTestsConfig(String testsConfigPath) {
 		
 		try ( BufferedReader testsConfigFile = new BufferedReader( new InputStreamReader( new FileInputStream(testsConfigPath) ) ); ) {
-			ArrayList<String> lines = new ArrayList<>();
-			testsConfigFile.lines().forEach((line)->{
-				if (!(line.isEmpty())) lines.add(line);				
-			});
+			ArrayList<String> lines = (ArrayList<String>) testsConfigFile
+			.lines()
+			.filter( (line)-> !line.startsWith("#") && !line.isEmpty() )
+			.collect(Collectors.toList());
 			durations = new int[lines.size()];
 			testFilesPaths = new String[lines.size()];
 			for (int i = 0; i<lines.size(); ++i) {
-				testFilesPaths[i] = lines.get(i).split("\\s+")[0];
-				durations[i] = Integer.valueOf(lines.get(i).split("\\s+")[1]);
+				String[] splitted = lines.get(i).split("\\s+");
+				testFilesPaths[i] = splitted[0];
+				durations[i] = Integer.valueOf(splitted[1]);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -87,7 +87,7 @@ public class Tester {
 		while (console.hasNextLine()) {
 			switch (console.nextLine().toLowerCase()) {
 				case "run":
-					runOnRemote(TCP_REMOTE_ADDRESS, TCP_REMOTE_PORT, durations, testFilesPaths);
+					if (!isProgramBusy()) runOnRemote(TCP_REMOTE_ADDRESS, TCP_REMOTE_PORT, durations, testFilesPaths);
 					break;
 				case "exit":
 					console.close();

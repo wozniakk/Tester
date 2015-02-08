@@ -4,5 +4,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="/home/kamil/workspace-java/Tester/lib/sbc.jar"/>
 	<classpathentry kind="lib" path="/home/kamil/workspace-java/Tester/lib/sip.jar"/>
+	<classpathentry kind="lib" path="/home/kamil/workspace-java/JMathStudio_Package/Bin/JMathStudio.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/kamil/workspace-java/JMathStudio_Package/API%20Doc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

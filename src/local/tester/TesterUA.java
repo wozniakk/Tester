@@ -13,6 +13,12 @@ import local.ua.UserAgentListener;
 
 public class TesterUA implements UserAgentListener {
 
+	private String userName;
+	
+	protected String getUserName() {
+		return userName;
+	}
+	
 	private String remoteUser;
 	
 	protected void setRemoteUser(String remoteUser) {
@@ -22,8 +28,6 @@ public class TesterUA implements UserAgentListener {
 	protected String getRemoteUser() {
 		return remoteUser;
 	}
-	
-	protected UserAgent ua;
 	
 	/** UA_IDLE=0 */
 	protected static final String UA_IDLE = "IDLE";
@@ -53,17 +57,12 @@ public class TesterUA implements UserAgentListener {
 		return call_state; 
 	}
 	
-	private String userName;
-	
-	protected String getUserName() {
-		return userName;
-	}
+	protected UserAgent ua;
 	
 	public TesterUA(String[] args) {
 		
 		UA.init("Tester", args);
 		userName = UUID.randomUUID().toString();
-		System.out.println("This: " + userName);
 		UA.ua_profile.user = userName; 
 		UA.ua_profile.auth_user = userName;
 		ua = new UserAgent(UA.sip_provider, UA.ua_profile, this);
@@ -125,7 +124,7 @@ public class TesterUA implements UserAgentListener {
 		};
 	}
 	
-	void run() {
+	private void run() {
 		// Set the re-invite
 		if (UA.ua_profile.re_invite_time>0) {
 			reInvite(UA.ua_profile.re_invite_time);
@@ -152,8 +151,6 @@ public class TesterUA implements UserAgentListener {
 			ua.loopRegister(UA.ua_profile.expires, UA.ua_profile.expires/2, UA.ua_profile.keepalive_time);
 		}
 		  
-		if (!UA.ua_profile.audio && !UA.ua_profile.video) ua.printLog("ONLY SIGNALING, NO MEDIA");
-		
 	}
 	
 	private TesterFunction testerFunction;
@@ -161,7 +158,8 @@ public class TesterUA implements UserAgentListener {
 	public void setCaller(String sendFile) {
 		
 		testerFunction = TesterFunction.CALLER;
-		UA.ua_profile.hangup_time = -1;
+		UA.ua_profile.hangup_time = 0;
+		UA.ua_profile.accept_time = -1;
 		UA.ua_profile.send_only = true;
 		UA.ua_profile.recv_only = false;
 		
@@ -172,10 +170,10 @@ public class TesterUA implements UserAgentListener {
 	public void setCalee(int hangupTime, String recvFile) {
 		
 		testerFunction = TesterFunction.CALEE;
-		UA.ua_profile.send_only = false;
-		UA.ua_profile.recv_only = true;
 		UA.ua_profile.hangup_time = hangupTime;
 		UA.ua_profile.accept_time = 0;
+		UA.ua_profile.send_only = false;
+		UA.ua_profile.recv_only = true;
 		
 		UA.ua_profile.recv_file = recvFile;
 		
@@ -206,13 +204,13 @@ public class TesterUA implements UserAgentListener {
 	@Override
 	public void onUaRegistrationSucceeded(UserAgent ua, String result) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void onUaRegistrationFailed(UserAgent ua, String result) {
 		// TODO Auto-generated method stub
-
+		
 	}
 	
 	@Override
@@ -245,36 +243,37 @@ public class TesterUA implements UserAgentListener {
 	@Override
 	public void onUaCallProgress(UserAgent ua) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void onUaCallRinging(UserAgent ua) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void onUaCallAccepted(UserAgent ua) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void onUaCallTransferred(UserAgent ua) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void onUaCallFailed(UserAgent ua, String reason) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void onUaCallClosed(UserAgent ua) {
 		// TODO Auto-generated method stub
+		
 		synchronized (this) {
 			this.notify();
 		}
@@ -284,12 +283,13 @@ public class TesterUA implements UserAgentListener {
 	@Override
 	public void onUaMediaSessionStarted(UserAgent ua, String type, String codec) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void onUaMediaSessionStopped(UserAgent ua, String type) {
 		// TODO Auto-generated method stub
+		
 		synchronized (this) {
 			this.notify();
 		}
