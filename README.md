@@ -1,26 +1,21 @@
 # Tester
 
+1. Instalacja
 
-1. Konfiguracja
-
-	W pliku config/tests.cfg linie zawierają ścieżki do plików testowych i ich długości w sekundach.
-
-
+	Po prostu rozpakowujemy archiwum na obydwu komputerach.
+	
 2. Uruchamianie
 
-	Będąc w katalogu Tester po jednej stronie ./Tester_a.sh, po drugiej ./Tester_b.sh, wcześniej zmieniając adresy w plikach, w razie potrzeby porty.
-
+	Na obydwu komputerach uruchamiamy ./Tester.sh <adres zdalny>, przykładowo:
+	
+192.168.0.10 | 192.168.0.11
+------------ | -------------
+./Tester.sh 192.168.0.11 | ./Tester.sh 192.168.0.10
 
 3. Używanie
 
-	W konsoli są dostępne dwa polecenia:
+	Program oczekuje dwóch komend:
 	
-	run - inicjalizuje połączenie z drugą stroną, po drugiej stronie w katalogu results zapisywane są wyniki.
+	run - wpisujemy na jednym z komputerów, inicjalizuje cały proces testowania, po pomyślnym zakończeniu widoczny komunikat DONE. Po drugiej stronie otrzymujemy wyniki analizy. Gdy cokolwiek doszło, wyniki procentowe są >= 0.
 	
-	exit - zamyka.
-
-
-Format plików to u-law, 8000Hz, mono.
-
-
-To jest mocno eksperymentalne.
+	exit - zamyka program.
