@@ -1,134 +1,134 @@
-1424403753339: SipProvider-5070: Date: 04:42:33.338 Fri 20 Feb 2015
-1424403753339: SipProvider-5070: SipStack: mjsip 1.7
-1424403753339: SipProvider-5070: new SipProvider(): 5070/
-1424403753346: SipProvider-5070: udp is up at port 5070
-1424403753353: SipProvider-5070: tcp is up at port 5070
-1424403753386: UA: ua_address: 192.168.0.10:5070
-1424403753388: UA: user's uri: "Tester" <sip:9587f580-8cd1-4023-81e8-dda1335eba04@127.0.0.2>
-1424403753388: UA: proxy: 127.0.0.2
-1424403753389: UA: registrar: 127.0.0.2
-1424403753389: UA: auth_realm: 127.0.0.2
-1424403753389: UA: auth_user: 9587f580-8cd1-4023-81e8-dda1335eba04
-1424403753389: UA: auth_passwd: ******
-1424403753389: UA: audio: true
-1424403753389: UA: video: false
-1424403753390: UA: media: audio 3000 rtp/avp { audio 0 PCMU 8000 160, audio 8 PCMA 8000 160 }
-1424403753390: UA: media: video 3002 rtp/avp { video 101 }
-1424403753391: SipProvider-5070: setting SipProviderListener: INVITE
-1424403753393: SipProvider-5070: setting SipProviderListener: OPTIONS
-1424403753394: SipProvider-5070: setting SipProviderListener: ANY
-1424403753518: GraphicalUA: state: IDLE
-1424403753518: GraphicalUA: state: IDLE
-1424403760649: 
-1424403760649: 04:42:40.649 Fri 20 Feb 2015, 192.168.0.11:5070/udp (699 bytes)INVITE sip:9587f580-8cd1-4023-81e8-dda1335eba04@192.168.0.10:5070 SIP/2.0, received
-1424403760649: SipProvider-5070: received new SIP message
-1424403760653: SipProvider-5070: transaction-id: 738138642320@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK3ea24647
-1424403760654: SipProvider-5070: dialog-id: 738138642320@192.168.0.11-null-705267170150
-1424403760654: SipProvider-5070: message passed to uas: INVITE
-1424403760666: ExtendedCall: changed call state: C_IDLE
-1424403760666: ExtendedCall: changed call state: C_IDLE
-1424403760670: ExtendedInviteDialog#0: changed dialog state: D_INIT
-1424403760670: ExtendedInviteDialog#0: changed dialog state: D_INVITED
-1424403760672: TransactionServer#0: new transaction-id: 738138642320@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK3ea24647
-1424403760672: TransactionServer#0: changed transaction state: T_Trying
-1424403760673: SipProvider-5070: setting SipProviderListener: 738138642320@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK3ea24647
-1424403760681: SipProvider-5070: Sending message through conn null
-1424403760682: tcp: no active connection found matching null
-1424403760682: SipProvider-5070: Resolving host address '192.168.0.11'
-1424403760683: SipProvider-5070: Sending message to udp:192.168.0.11:5070
-1424403760684: 
-1424403760684: 04:42:40.684 Fri 20 Feb 2015, 192.168.0.11:5070/udp (334 bytes)SIP/2.0 100 Trying, sent
-1424403760684: TransactionServer#0: changed transaction state: T_Proceeding
-1424403760685: ExtendedInviteDialog#0: new dialog-id: 738138642320@192.168.0.11-null-705267170150
-1424403760685: SipProvider-5070: setting SipProviderListener: 738138642320@192.168.0.11-null-705267170150
-1424403760686: ExtendedCall: changed call state: C_INCOMING
-1424403760686: UA: onNewIncomingCall()
-1424403760686: UA: INCOMING
-1424403760686: ExtendedInviteDialog#0: inside ring()
-1424403760686: ExtendedInviteDialog#0: inside respond(180,null)
-1424403760688: ExtendedInviteDialog#0: inside respond(resp)
-1424403760688: ExtendedInviteDialog#0: inside respond(resp)
-1424403760688: SipProvider-5070: Sending message through conn null
-1424403760689: tcp: no active connection found matching null
-1424403760689: SipProvider-5070: Resolving host address '192.168.0.11'
-1424403760689: SipProvider-5070: Sending message to udp:192.168.0.11:5070
-1424403760689: 
-1424403760690: 04:42:40.690 Fri 20 Feb 2015, 192.168.0.11:5070/udp (335 bytes)SIP/2.0 180 Ringing, sent
-1424403760701: GraphicalUA: state: INCOMING_CALL
-1424403760701: GraphicalUA: AUTOMATIC ANSWER: 0 secs
-1424403760702: ExtendedInviteDialog#0: inside accept(contact,sdp)
-1424403760702: ExtendedInviteDialog#0: inside respond(200,null)
-1424403760707: ExtendedInviteDialog#0: inside respond(resp)
-1424403760707: ExtendedInviteDialog#0: inside respond(resp)
-1424403760708: ExtendedInviteDialog#0: new dialog-id: 738138642320@192.168.0.11-9bd41786248cef9b-705267170150
-1424403760708: SipProvider-5070: setting SipProviderListener: 738138642320@192.168.0.11-9bd41786248cef9b-705267170150
-1424403760708: SipProvider-5070: removing SipProviderListener: 738138642320@192.168.0.11-null-705267170150
-1424403760708: ExtendedInviteDialog#0: changed dialog state: D_ACCEPTED
-1424403760709: SipProvider-5070: removing SipProviderListener: 738138642320@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK3ea24647
-1424403760709: TransactionServer#0: changed transaction state: T_Terminated
-1424403760710: AckTransactionServer#1: new transaction-id: 738138642320@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK3ea24647
-1424403760711: AckTransactionServer#1: changed transaction state: T_Proceeding
-1424403760711: SipProvider-5070: setting SipProviderListener: 738138642320@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK3ea24647
-1424403760711: SipProvider-5070: Sending message through conn null
-1424403760712: tcp: no active connection found matching null
-1424403760712: SipProvider-5070: Resolving host address '192.168.0.11'
-1424403760712: SipProvider-5070: Sending message to udp:192.168.0.11:5070
-1424403760713: 
-1424403760713: 04:42:40.713 Fri 20 Feb 2015, 192.168.0.11:5070/udp (629 bytes)SIP/2.0 200 OK, sent
-1424403760713: ExtendedCall: changed call state: C_ACTIVE
-1424403760713: GraphicalUA: state: ONCALL
-1424403760713: GraphicalUA: AUTOMATIC HANGUP: 4 secs
-1424403760726: 
-1424403760727: 04:42:40.726 Fri 20 Feb 2015, 192.168.0.11:5070/udp (507 bytes)ACK sip:9587f580-8cd1-4023-81e8-dda1335eba04@192.168.0.10:5070 SIP/2.0, received
-1424403760727: SipProvider-5070: received new SIP message
-1424403760728: SipProvider-5070: transaction-id: 738138642320@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK9475aafa
-1424403760728: SipProvider-5070: dialog-id: 738138642320@192.168.0.11-9bd41786248cef9b-705267170150
-1424403760728: SipProvider-5070: message passed to dialog: 738138642320@192.168.0.11-9bd41786248cef9b-705267170150
-1424403760729: ExtendedInviteDialog#0: inside onReceivedMessage(sip_provider,message)
-1424403760729: ExtendedInviteDialog#0: changed dialog state: D_CALL
-1424403760729: AckTransactionServer#1: changed transaction state: T_Terminated
-1424403760729: SipProvider-5070: removing SipProviderListener: 738138642320@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK3ea24647
-1424403760730: UA: onCallConfirmed()
-1424403760730: UA: CONFIRMED/CALL
-1424403760734: UA: audio format: PCMU
-1424403760734: MediaAgent: start(audio 0 PCMU 8000 160)
-1424403760734: MediaAgent: new flow: 3000<--=192.168.0.11:3000
-1424403760741: AudioApp: codec: PCMU
-1424403760741: AudioApp: codec mapped to: ULAW
-1424403760741: AudioApp: packet size: 160
-1424403760741: AudioApp: packet rate: 50
-1424403760741: AudioApp: base audio format: PCM_SIGNED 8000.0 Hz, 16 bit, mono, 2 bytes/frame, little-endian
-1424403760743: AudioApp: encoding audio format: ULAW 8000.0 Hz, 8 bit, mono, 1 bytes/frame, 
-1424403760744: AudioApp: new audio receiver on 3000
-1424403760747: AudioApp: starting java audio
-1424403760748: AudioApp: start receiving
-1424403764716: MediaAgent: stop(audio)
-1424403764716: AudioApp: stopping java audio
-1424403764716: AudioApp: receiver halted
-1424403764918: ExtendedInviteDialog#0: inside bye()
-1424403764930: ExtendedInviteDialog#0: inside bye(bye)
-1424403764930: ExtendedInviteDialog#0: changed dialog state: D_BYEING
-1424403764932: TransactionClient#2: new transaction-id: 738138642320@192.168.0.11-1-BYE-client-192.168.0.10:5070-z9hG4bK9c5a9e3d
-1424403764933: TransactionClient#2: changed transaction state: T_Trying
-1424403764939: SipProvider-5070: setting SipProviderListener: 738138642320@192.168.0.11-1-BYE-client-192.168.0.10:5070-z9hG4bK9c5a9e3d
-1424403764940: SipProvider-5070: using transport udp
-1424403764940: SipProvider-5070: Resolving host address '192.168.0.11'
-1424403764941: SipProvider-5070: Sending message to udp:192.168.0.11:5070
-1424403764941: 
-1424403764942: 04:42:44.941 Fri 20 Feb 2015, 192.168.0.11:5070/udp (421 bytes)BYE sip:2609c99e-9595-4e3b-a32e-5ac4a329ed8c@192.168.0.11:5070 SIP/2.0, sent
-1424403764942: ExtendedCall: changed call state: C_CLOSED
-1424403764942: GraphicalUA: state: IDLE
-1424403764953: 
-1424403764953: 04:42:44.953 Fri 20 Feb 2015, 192.168.0.11:5070/udp (348 bytes)SIP/2.0 200 OK, received
-1424403764954: SipProvider-5070: received new SIP message
-1424403764954: SipProvider-5070: transaction-id: 738138642320@192.168.0.11-1-BYE-client-192.168.0.10:5070-z9hG4bK9c5a9e3d
-1424403764954: SipProvider-5070: message passed to transaction: 738138642320@192.168.0.11-1-BYE-client-192.168.0.10:5070-z9hG4bK9c5a9e3d
-1424403764955: TransactionClient#2: changed transaction state: T_Completed
-1424403764956: ExtendedInviteDialog#0: changed dialog state: D_CLOSE
-1424403764956: SipProvider-5070: removing SipProviderListener: 738138642320@192.168.0.11-9bd41786248cef9b-705267170150
-1424403764956: UA: onCallClosed()
-1424403764956: UA: NOT the current call
-1424403765027: GraphicalUA: state: IDLE
-1424403769958: TransactionClient#2: Clearing timeout expired
-1424403769958: SipProvider-5070: removing SipProviderListener: 738138642320@192.168.0.11-1-BYE-client-192.168.0.10:5070-z9hG4bK9c5a9e3d
-1424403769959: TransactionClient#2: changed transaction state: T_Terminated
+1424406506269: SipProvider-5070: Date: 05:28:26.268 Fri 20 Feb 2015
+1424406506269: SipProvider-5070: SipStack: mjsip 1.7
+1424406506269: SipProvider-5070: new SipProvider(): 5070/
+1424406506276: SipProvider-5070: udp is up at port 5070
+1424406506283: SipProvider-5070: tcp is up at port 5070
+1424406506312: UA: ua_address: 192.168.0.10:5070
+1424406506315: UA: user's uri: "Tester" <sip:91c15365-9100-495d-9b40-c25c2ca83185@127.0.0.2>
+1424406506315: UA: proxy: 127.0.0.2
+1424406506315: UA: registrar: 127.0.0.2
+1424406506315: UA: auth_realm: 127.0.0.2
+1424406506315: UA: auth_user: 91c15365-9100-495d-9b40-c25c2ca83185
+1424406506315: UA: auth_passwd: ******
+1424406506316: UA: audio: true
+1424406506316: UA: video: false
+1424406506316: UA: media: audio 3000 rtp/avp { audio 0 PCMU 8000 160, audio 8 PCMA 8000 160 }
+1424406506316: UA: media: video 3002 rtp/avp { video 101 }
+1424406506318: SipProvider-5070: setting SipProviderListener: INVITE
+1424406506319: SipProvider-5070: setting SipProviderListener: OPTIONS
+1424406506320: SipProvider-5070: setting SipProviderListener: ANY
+1424406506439: GraphicalUA: state: IDLE
+1424406506440: GraphicalUA: state: IDLE
+1424406510371: 
+1424406510372: 05:28:30.372 Fri 20 Feb 2015, 192.168.0.11:5070/udp (699 bytes)INVITE sip:91c15365-9100-495d-9b40-c25c2ca83185@192.168.0.10:5070 SIP/2.0, received
+1424406510372: SipProvider-5070: received new SIP message
+1424406510376: SipProvider-5070: transaction-id: 359657690313@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK7b9012f4
+1424406510376: SipProvider-5070: dialog-id: 359657690313@192.168.0.11-null-178240336237
+1424406510376: SipProvider-5070: message passed to uas: INVITE
+1424406510387: ExtendedCall: changed call state: C_IDLE
+1424406510387: ExtendedCall: changed call state: C_IDLE
+1424406510391: ExtendedInviteDialog#0: changed dialog state: D_INIT
+1424406510392: ExtendedInviteDialog#0: changed dialog state: D_INVITED
+1424406510394: TransactionServer#0: new transaction-id: 359657690313@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK7b9012f4
+1424406510394: TransactionServer#0: changed transaction state: T_Trying
+1424406510395: SipProvider-5070: setting SipProviderListener: 359657690313@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK7b9012f4
+1424406510403: SipProvider-5070: Sending message through conn null
+1424406510403: tcp: no active connection found matching null
+1424406510404: SipProvider-5070: Resolving host address '192.168.0.11'
+1424406510405: SipProvider-5070: Sending message to udp:192.168.0.11:5070
+1424406510405: 
+1424406510406: 05:28:30.405 Fri 20 Feb 2015, 192.168.0.11:5070/udp (334 bytes)SIP/2.0 100 Trying, sent
+1424406510406: TransactionServer#0: changed transaction state: T_Proceeding
+1424406510407: ExtendedInviteDialog#0: new dialog-id: 359657690313@192.168.0.11-null-178240336237
+1424406510407: SipProvider-5070: setting SipProviderListener: 359657690313@192.168.0.11-null-178240336237
+1424406510407: ExtendedCall: changed call state: C_INCOMING
+1424406510408: UA: onNewIncomingCall()
+1424406510408: UA: INCOMING
+1424406510408: ExtendedInviteDialog#0: inside ring()
+1424406510408: ExtendedInviteDialog#0: inside respond(180,null)
+1424406510410: ExtendedInviteDialog#0: inside respond(resp)
+1424406510410: ExtendedInviteDialog#0: inside respond(resp)
+1424406510410: SipProvider-5070: Sending message through conn null
+1424406510410: tcp: no active connection found matching null
+1424406510411: SipProvider-5070: Resolving host address '192.168.0.11'
+1424406510411: SipProvider-5070: Sending message to udp:192.168.0.11:5070
+1424406510411: 
+1424406510411: 05:28:30.411 Fri 20 Feb 2015, 192.168.0.11:5070/udp (335 bytes)SIP/2.0 180 Ringing, sent
+1424406510422: GraphicalUA: state: INCOMING_CALL
+1424406510422: GraphicalUA: AUTOMATIC ANSWER: 0 secs
+1424406510424: ExtendedInviteDialog#0: inside accept(contact,sdp)
+1424406510424: ExtendedInviteDialog#0: inside respond(200,null)
+1424406510429: ExtendedInviteDialog#0: inside respond(resp)
+1424406510429: ExtendedInviteDialog#0: inside respond(resp)
+1424406510429: ExtendedInviteDialog#0: new dialog-id: 359657690313@192.168.0.11-da483a907e457994-178240336237
+1424406510429: SipProvider-5070: setting SipProviderListener: 359657690313@192.168.0.11-da483a907e457994-178240336237
+1424406510429: SipProvider-5070: removing SipProviderListener: 359657690313@192.168.0.11-null-178240336237
+1424406510430: ExtendedInviteDialog#0: changed dialog state: D_ACCEPTED
+1424406510430: SipProvider-5070: removing SipProviderListener: 359657690313@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK7b9012f4
+1424406510430: TransactionServer#0: changed transaction state: T_Terminated
+1424406510431: AckTransactionServer#1: new transaction-id: 359657690313@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK7b9012f4
+1424406510432: AckTransactionServer#1: changed transaction state: T_Proceeding
+1424406510432: SipProvider-5070: setting SipProviderListener: 359657690313@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK7b9012f4
+1424406510432: SipProvider-5070: Sending message through conn null
+1424406510433: tcp: no active connection found matching null
+1424406510433: SipProvider-5070: Resolving host address '192.168.0.11'
+1424406510433: SipProvider-5070: Sending message to udp:192.168.0.11:5070
+1424406510434: 
+1424406510434: 05:28:30.434 Fri 20 Feb 2015, 192.168.0.11:5070/udp (629 bytes)SIP/2.0 200 OK, sent
+1424406510434: ExtendedCall: changed call state: C_ACTIVE
+1424406510434: GraphicalUA: state: ONCALL
+1424406510434: GraphicalUA: AUTOMATIC HANGUP: 4 secs
+1424406510453: 
+1424406510454: 05:28:30.453 Fri 20 Feb 2015, 192.168.0.11:5070/udp (507 bytes)ACK sip:91c15365-9100-495d-9b40-c25c2ca83185@192.168.0.10:5070 SIP/2.0, received
+1424406510454: SipProvider-5070: received new SIP message
+1424406510455: SipProvider-5070: transaction-id: 359657690313@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK3fda9d0c
+1424406510455: SipProvider-5070: dialog-id: 359657690313@192.168.0.11-da483a907e457994-178240336237
+1424406510455: SipProvider-5070: message passed to dialog: 359657690313@192.168.0.11-da483a907e457994-178240336237
+1424406510456: ExtendedInviteDialog#0: inside onReceivedMessage(sip_provider,message)
+1424406510456: ExtendedInviteDialog#0: changed dialog state: D_CALL
+1424406510456: AckTransactionServer#1: changed transaction state: T_Terminated
+1424406510456: SipProvider-5070: removing SipProviderListener: 359657690313@192.168.0.11-1-INVITE-server-192.168.0.11:5070-z9hG4bK7b9012f4
+1424406510457: UA: onCallConfirmed()
+1424406510457: UA: CONFIRMED/CALL
+1424406510461: UA: audio format: PCMU
+1424406510461: MediaAgent: start(audio 0 PCMU 8000 160)
+1424406510462: MediaAgent: new flow: 3000<--=192.168.0.11:3000
+1424406510467: AudioApp: codec: PCMU
+1424406510467: AudioApp: codec mapped to: ULAW
+1424406510468: AudioApp: packet size: 160
+1424406510468: AudioApp: packet rate: 50
+1424406510468: AudioApp: base audio format: PCM_SIGNED 8000.0 Hz, 16 bit, mono, 2 bytes/frame, little-endian
+1424406510471: AudioApp: encoding audio format: ULAW 8000.0 Hz, 8 bit, mono, 1 bytes/frame, 
+1424406510471: AudioApp: new audio receiver on 3000
+1424406510475: AudioApp: starting java audio
+1424406510476: AudioApp: start receiving
+1424406514439: MediaAgent: stop(audio)
+1424406514440: AudioApp: stopping java audio
+1424406514441: AudioApp: receiver halted
+1424406514642: ExtendedInviteDialog#0: inside bye()
+1424406514657: ExtendedInviteDialog#0: inside bye(bye)
+1424406514657: ExtendedInviteDialog#0: changed dialog state: D_BYEING
+1424406514659: TransactionClient#2: new transaction-id: 359657690313@192.168.0.11-1-BYE-client-192.168.0.10:5070-z9hG4bK85b3c721
+1424406514659: TransactionClient#2: changed transaction state: T_Trying
+1424406514666: SipProvider-5070: setting SipProviderListener: 359657690313@192.168.0.11-1-BYE-client-192.168.0.10:5070-z9hG4bK85b3c721
+1424406514667: SipProvider-5070: using transport udp
+1424406514667: SipProvider-5070: Resolving host address '192.168.0.11'
+1424406514667: SipProvider-5070: Sending message to udp:192.168.0.11:5070
+1424406514668: 
+1424406514668: 05:28:34.668 Fri 20 Feb 2015, 192.168.0.11:5070/udp (421 bytes)BYE sip:7d1e0fd5-27a7-4fcb-bab0-dc775e1747e5@192.168.0.11:5070 SIP/2.0, sent
+1424406514669: ExtendedCall: changed call state: C_CLOSED
+1424406514669: GraphicalUA: state: IDLE
+1424406514680: 
+1424406514680: 05:28:34.680 Fri 20 Feb 2015, 192.168.0.11:5070/udp (348 bytes)SIP/2.0 200 OK, received
+1424406514680: SipProvider-5070: received new SIP message
+1424406514680: SipProvider-5070: transaction-id: 359657690313@192.168.0.11-1-BYE-client-192.168.0.10:5070-z9hG4bK85b3c721
+1424406514680: SipProvider-5070: message passed to transaction: 359657690313@192.168.0.11-1-BYE-client-192.168.0.10:5070-z9hG4bK85b3c721
+1424406514682: TransactionClient#2: changed transaction state: T_Completed
+1424406514682: ExtendedInviteDialog#0: changed dialog state: D_CLOSE
+1424406514682: SipProvider-5070: removing SipProviderListener: 359657690313@192.168.0.11-da483a907e457994-178240336237
+1424406514682: UA: onCallClosed()
+1424406514683: UA: NOT the current call
+1424406514770: GraphicalUA: state: IDLE
+1424406519684: TransactionClient#2: Clearing timeout expired
+1424406519685: SipProvider-5070: removing SipProviderListener: 359657690313@192.168.0.11-1-BYE-client-192.168.0.10:5070-z9hG4bK85b3c721
+1424406519685: TransactionClient#2: changed transaction state: T_Terminated
