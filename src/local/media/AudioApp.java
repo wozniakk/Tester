@@ -383,7 +383,7 @@ public class AudioApp implements MediaApp, RtpStreamReceiverListener
    /** Adds a new string to the default Log */
    private void printLog(String str, int level)
    {  if (log!=null) log.println("AudioApp: "+str,LoopbackMediaApp.LOG_OFFSET+level);  
-      if (level<=Log.LEVEL_HIGH) System.out.println("AudioApp: "+str);
+//      if (level<=Log.LEVEL_HIGH) System.out.println("AudioApp: "+str);
    }
 
    /** Adds the Exception message to the default Log */

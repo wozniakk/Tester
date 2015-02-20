@@ -1,21 +1,15 @@
 package local.tester;
 
+import static local.tester.Tester.setProgramAvailable;
+import static local.tester.Tester.setProgramBusy;
+import static local.tester.Tester.testerUA;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.RandomAccessFile;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
-import static local.tester.Tester.*;
 
 public class Client implements Runnable {
 
@@ -36,45 +30,6 @@ public class Client implements Runnable {
 		StringBuilder durationsString = new StringBuilder(Integer.valueOf(durations.length).toString());
 		for (int i: durations) durationsString.append(' ' + String.valueOf(i));
 		return durationsString.toString();
-		
-	}
-	
-	private void copyHeader(String from, String to) {
-
-		int headerLength;
-		File fromFile = new File(from);
-		try ( FileInputStream fromInputStream = new FileInputStream( fromFile );
-				RandomAccessFile toFile = new RandomAccessFile(new File(to), "rw"); ) {
-			AudioFileFormat format = AudioSystem.getAudioFileFormat( fromFile );
-			headerLength = format.getByteLength() - format.getFrameLength();
-			byte[] headerBuffer = new byte[headerLength];
-			byte[] fileBuffer = new byte[(int) toFile.length()];
-			fromInputStream.read(headerBuffer);
-			toFile.read(fileBuffer);
-			toFile.seek(0);
-			toFile.write(headerBuffer);
-			toFile.write(fileBuffer);
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
-	private void getRecordedFile(String fileName, BufferedReader clientInputStream) {
-		
-		try {
-			FileOutputStream outputFile = new FileOutputStream(fileName);
-			long fileSize = Long.valueOf( clientInputStream.readLine() );
-			for (long i = 0; i<fileSize; ++i) {
-				int temp = clientInputStream.read();
-				outputFile.write(temp);
-			}
-			outputFile.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
 	}
 	
@@ -101,15 +56,9 @@ public class Client implements Runnable {
 							testerUA.setRemoteUser( clientInputStream.readLine() );
 							clientOutputStream.writeBytes(testerUA.getUserName() + '\n');
 							for (int i = 0; i<durations.length; ++i) {
-								System.out.println("Sending: " + testFilesPaths[i]);
 								testerUA.setCaller(testFilesPaths[i]);
 								testerUA.ua.call("sip:" + testerUA.getRemoteUser() + '@' + tcpRemoteAddress + ":5070");
 								testerUA.waitForHangup();
-							}
-//							waiting for recorded files
-							for (int i = 0; i<durations.length; ++i) {
-//								getRecordedFile("results/" + Tester.testerUA.getRemoteUser() + "_" + i + "_recv.wav", clientInputStream);
-								copyHeader(testFilesPaths[i], "results/" + testerUA.getUserName() + "_" + i + ".wav");
 							}
 							testerUA.setIdle();
 							System.out.println("DONE");

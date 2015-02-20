@@ -2,14 +2,20 @@ package local.tester;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.RandomAccessFile;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import static local.tester.Tester.*;
+import static local.tester.DSP.*;
 
 public class Server implements Runnable {
 
@@ -19,14 +25,22 @@ public class Server implements Runnable {
 		this.tcpPortNumber = tcpPortNumber;
 	}
 	
-	private void sendRecordedFileBack(String filePath, DataOutputStream outputStream) {
-		
-		try ( FileInputStream inputFile = new FileInputStream(filePath); ) {
-			long fileSize = inputFile.available();
-			outputStream.writeBytes(fileSize + "\n");
-			int byteReaded;
-			while ((byteReaded = inputFile.read()) != -1) outputStream.write(byteReaded);
-		} catch (FileNotFoundException e) {
+	private void copyHeader(String from, String to) {
+
+		int headerLength;
+		File fromFile = new File(from);
+		try ( FileInputStream fromInputStream = new FileInputStream( fromFile );
+				RandomAccessFile toFile = new RandomAccessFile(new File(to), "rw"); ) {
+			AudioFileFormat format = AudioSystem.getAudioFileFormat( fromFile );
+			headerLength = format.getByteLength() - format.getFrameLength();
+			byte[] headerBuffer = new byte[headerLength];
+			byte[] fileBuffer = new byte[(int) toFile.length()];
+			fromInputStream.read(headerBuffer);
+			toFile.read(fileBuffer);
+			toFile.seek(0);
+			toFile.write(headerBuffer);
+			toFile.write(fileBuffer);
+		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -62,12 +76,11 @@ public class Server implements Runnable {
 								for (int i = 0; i<callsNumber; ++i) {
 									testerUA.setCalee(callsLength[i], "results/" + testerUA.getRemoteUser() + "_" + i + ".wav");
 									testerUA.waitForHangup();
-									System.out.println("Received: " + testerUA.getRemoteUser() + "_" + i + ".wav");
 								}
-//								sending files back
-//								for (int i = 0; i<callsNumber; ++i)
-//									sendRecordedFileBack("results/" + Tester.testerUA.getRemoteUser() + "_" + i + ".wav", outputData);
-//								
+								for (int i = 0; i<callsNumber; ++i) {
+									copyHeader("tests/" + "test_" + i + ".wav", "results/" + testerUA.getRemoteUser() + "_" + i + ".wav");
+									analyse("tests/" + "test_" + i + ".wav", "results/" + testerUA.getRemoteUser() + "_" + i + ".wav");
+								}
 								testerUA.setIdle();
 								setProgramAvailable();
 								System.out.println("DONE");
